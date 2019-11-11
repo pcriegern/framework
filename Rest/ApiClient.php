@@ -1,5 +1,7 @@
 <?php
 
+namespace wlec\Framework\Rest;
+
 require_once __DIR__ . '/RestClient.php';
 
 class ApiClient extends RestClient {
