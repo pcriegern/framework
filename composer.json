@@ -1,0 +1,7 @@
+{
+    "name": "wlec/Framework",
+    "description": "WLEC PHP Framework Basics",
+    "require": {
+        "php": ">=5.6"
+    }
+}
