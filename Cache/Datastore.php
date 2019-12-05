@@ -58,7 +58,7 @@ class Datastore {
             throw new \Exception("Datastore File not found: $key", 6001);
         }
         unlink($storageFile);
-        if (!is_file($storageFile)) {
+        if (is_file($storageFile)) {
             throw new \Exception("Not able to delete Datastore File: $key", 6002);
         }
         return true;
