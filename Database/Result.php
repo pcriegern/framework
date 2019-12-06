@@ -1,6 +1,6 @@
 <?php
 
-namespace Wlec\Framework\Database;
+namespace wlec\Framework\Database;
 
 class Result implements \IteratorAggregate {
 
