@@ -1,6 +1,6 @@
 <?php
 
-namespace Wlec\Framework\Rest;
+namespace wlec\Framework\Rest;
 
 require_once __DIR__ . '/RestClient.php';
 
