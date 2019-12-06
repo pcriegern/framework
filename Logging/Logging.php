@@ -10,7 +10,7 @@ namespace wlec\Framework\Logging;
 
 /**
  * Class Logging
- * @package Wlec\Framework\Logging
+ * @package wlec\Framework\Logging
  */
 class Logging {
 
