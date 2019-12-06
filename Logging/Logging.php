@@ -6,7 +6,7 @@
  * Time: 19:20
  */
 
-namespace Wlec\Framework\Logging;
+namespace wlec\Framework\Logging;
 
 /**
  * Class Logging
