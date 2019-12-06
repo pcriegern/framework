@@ -7,16 +7,28 @@ class Datastore {
     /**
      * @var string
      */
-    private $folder = '/tmp/';
+    protected $folder  = '/tmp/';
+
+    /**
+     * @var string
+     */
+    protected $context = '';
 
     /**
      * Datastore constructor.
-     * @param string $folder
+     * @param string $context
      */
-    public function __construct( $folder = '' ) {
-        if ($folder) {
-            $this->folder = $folder;
+    public function __construct( $context = '' ) {
+        if ($context) {
+            $this->context = $context . '_';
         }
+    }
+
+    /**
+     * @param $folder
+     */
+    public function setFolder($folder) {
+        $this->folder = $folder;
     }
 
     /**
@@ -69,7 +81,7 @@ class Datastore {
      * @return string
      */
     protected function getStorageFilename ( $key ) {
-        return $this->folder . 'datastore_' . rawurlencode($key) . '.json';
+        return $this->folder . $this->context . 'datastore_' . rawurlencode($key) . '.json';
     }
 
     /**
