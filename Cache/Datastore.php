@@ -40,7 +40,7 @@ class Datastore {
      */
     public function write ( $data, $key = '' ) {
         if (empty($key)) {
-            $key = uniqid();
+            $key = $this->generateKey();
         }
         $storageFile = $this->getStorageFilename($key);
         file_put_contents($storageFile, json_encode($data));
@@ -68,8 +68,16 @@ class Datastore {
      * @param string $key
      * @return string
      */
-    private function getStorageFilename ( $key ) {
+    protected function getStorageFilename ( $key ) {
         return $this->folder . 'datastore_' . rawurlencode($key) . '.json';
+    }
+
+    /**
+     * @return string
+     */
+    protected function generateKey() {
+        $key = uniqid();
+        return $key;
     }
 
 }
