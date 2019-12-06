@@ -1,6 +1,6 @@
 <?php
 
-namespace Wlec\Framework\Rest;
+namespace wlec\Framework\Rest;
 
 /**
  * Class RestClient
