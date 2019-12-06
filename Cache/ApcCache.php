@@ -1,6 +1,6 @@
 <?php
 
-namespace Wlec\Framework\Cache;
+namespace wlec\Framework\Cache;
 
 /**
  * APC Cache Wrapper
