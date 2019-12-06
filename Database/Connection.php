@@ -5,7 +5,7 @@ namespace wlec\Framework\Database;
 require_once __DIR__ . '/Result.php';
 require_once __DIR__ . '/../Logging/Logging.php';
 
-use Wlec\Framework\Logging\Logging;
+use wlec\Framework\Logging\Logging;
 
 class Connection {
 
@@ -65,7 +65,7 @@ class Connection {
 	 *
 	 * @param $sql
 	 * @param null $params
-	 * @return \Wlec\Framework\Database\Result
+	 * @return \wlec\Framework\Database\Result
 	 * @throws \Exception
 	 */
 	public function query($sql, $params = null) {
@@ -207,7 +207,7 @@ class Connection {
 	 * @param $table
 	 * @param $data
 	 * @param null $id
-	 * @return \Wlec\Framework\Database\Result
+	 * @return \wlec\Framework\Database\Result
 	 * @throws \Exception
 	 */
 	public function updateObject ( $table, $data, $id = null) {
