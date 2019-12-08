@@ -45,23 +45,27 @@ class RestClient {
     /**
      * @var string
      */
-    private $accessToken;
-    /**
-     * @var
-     */
-    private $basicAuthentication;
+    protected $header;
     /**
      * @var string
      */
-    private $response;
+    protected $response;
+    /**
+     * @var string
+     */
+    protected $accessToken;
+    /**
+     * @var
+     */
+    protected $basicAuthentication;
     /**
      * @var array
      */
-    private $data;
+    protected $data;
     /**
      * @var bool
      */
-    private $jsonDecodeObject = false;
+    protected $jsonDecodeObject = false;
 
     /**
      * RestClient constructor.
@@ -187,7 +191,6 @@ class RestClient {
         return $result;
     }
 
-
     /**
      * @param $uri
      * @param $data
@@ -248,7 +251,7 @@ class RestClient {
             $this->url .= $uri;
 
             $ch = curl_init($this->url);
-            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_HEADER, 1);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             if ($isPostRequest) {
                 $body = is_string($postData) ? $postData : json_encode($postData);
@@ -270,8 +273,14 @@ class RestClient {
             if (!empty($this->requestHeader)) {
                 curl_setopt($ch, CURLOPT_HTTPHEADER, $this->requestHeader);
             }
-            $this->response = curl_exec($ch);
+
+            // Execute Request, Extract Header + Content
+            $response       = curl_exec($ch);
+            $headerSize     = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+            $this->header   = substr($response, 0, $headerSize);
+            $this->response = substr($response, $headerSize);
             curl_close($ch);
+
             //  Store Request
             $this->request = trim(join("\n", $this->requestHeader) . "\n\n" . $body);
         } catch (Exception $e) {
@@ -298,4 +307,3 @@ class RestClient {
     }
 
 }
-
