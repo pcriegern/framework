@@ -6,62 +6,62 @@ namespace wlec\Framework\Rest;
  * Class RestClient
  */
 class RestClient {
-	/**
-	 * @var string
-	 */
-    private $domain        = '';
-	/**
-	 * @var int
-	 */
-    private $port          = 433;
-	/**
-	 * @var string
-	 */
-    private $protocol      = 'https';
-	/**
-	 * @var string
-	 */
-    private $requestMethod = 'GET';
-	/**
-	 * @var string
-	 */
-    private $url;
-	/**
-	 * @var array
-	 */
-    private $requestHeader = [];
-	/**
-	 * @var string
-	 */
-    private $request       = '';
-	/**
-	 * @var string
-	 */
+    /**
+     * @var string
+     */
+    protected $domain        = '';
+    /**
+     * @var int
+     */
+    protected $port          = 433;
+    /**
+     * @var string
+     */
+    protected $protocol      = 'https';
+    /**
+     * @var string
+     */
+    protected $cacheDir      = '/tmp/';
+    /**
+     * @var int
+     */
+    protected $cacheTTL      = 60;
+    /**
+     * @var string
+     */
+    protected $requestMethod = 'GET';
+    /**
+     * @var string
+     */
+    protected $url;
+    /**
+     * @var array
+     */
+    protected $requestHeader = [];
+    /**
+     * @var string
+     */
+    protected $request       = '';
+    /**
+     * @var string
+     */
     private $accessToken;
     /**
      * @var
      */
     private $basicAuthentication;
-	/**
-	 * @var string
-	 */
+    /**
+     * @var string
+     */
     private $response;
-	/**
-	 * @var array
-	 */
+    /**
+     * @var array
+     */
     private $data;
     /**
      * @var bool
      */
     private $jsonDecodeObject = false;
-    /**
-     * @var string
-     */
-    private $cacheDir = '/tmp/';
-    /**
-     * @var int
-     */
-    private $cacheTTL = 60;
 
     /**
      * RestClient constructor.
@@ -170,21 +170,23 @@ class RestClient {
      *
      * @return mixed
      */
-    public function get ( $uri, $useCache = false ) {
-    	if ($useCache) {
-    		$cacheFilename = $this->cacheDir .  'rest-' . md5($this->domain . $uri);
-    		if (is_file($cacheFilename)) {
-    			if (time() - filemtime($cacheFilename) < $this->cacheTTL) {
-    				return json_decode(file_get_contents($cacheFilename), !$this->jsonDecodeObject);
-				}
-			}
-		}
+    public function get($uri, $useCache = false) {
+        if ($useCache && $this->cacheTTL > 0) {
+            $cacheFilename = $this->cacheDir . 'rest-' . md5($this->domain . $uri);
+            if (is_file($cacheFilename)) {
+                if (time() - filemtime($cacheFilename) < $this->cacheTTL) {
+                    return json_decode(file_get_contents($cacheFilename), !$this->jsonDecodeObject);
+                }
+            }
+        }
         $result = $this->handleRequest($uri, false);
-    	if ($useCache) {
-    		file_put_contents($cacheFilename, json_encode($result));
-		}
-    	return $result;
+        if ($useCache && $this->cacheTTL > 0) {
+            file_put_contents($cacheFilename, json_encode($result));
+        }
+
+        return $result;
     }
+
 
     /**
      * @param $uri
@@ -204,6 +206,16 @@ class RestClient {
      */
     public function patch ( $uri, $data ) {
         return $this->handleRequest($uri, true, $data, 'PATCH');
+    }
+
+    /**
+     * @param $uri
+     * @param $data
+     *
+     * @return mixed
+     */
+    public function put ( $uri, $data ) {
+        return $this->handleRequest($uri, true, $data, 'PUT');
     }
 
     /**
