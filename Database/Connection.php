@@ -9,26 +9,32 @@ use wlec\Framework\Logging\Logging;
 
 class Connection {
 
-	/** @var \PDO */
-	protected $connection;
+    /** @var \PDO */
+    protected $connection;
 
-	/** @var string */
-	private $conString;
+    /** @var string */
+    private $conString;
 
-	/**
-	 * @var int
-	 */
-	public $queryCount = 0;
+    /**
+     * @var int
+     */
+    public $queryCount = 0;
 
-	/**
-	 * @var int
-	 */
-	public $queryTime = 0;
+    /**
+     * @var int
+     */
+    public $queryTime = 0;
+
+   /**
+     * @var int
+     */
+    public $resultCount = 0;
+
 
     /**
      * @vars
      */
-	public $projectName;
+    public $projectName;
 
     /**
      * Connection constructor.
@@ -38,16 +44,16 @@ class Connection {
      * @param string $host
      * @param int $port
      */
-	public function __construct( $db, $user, $pass, $host = 'localhost', $port = 5432 ) {
-		if (empty($db)) {
-			return;
-		}
-		$this->projectName = $db;
-		if( empty( $port )) $port = 5432;
-		if( empty( $host )) $host = 'localhost';
-		$this->conString = "pgsql:host=$host;port=$port;user=$user;password=$pass;dbname=";
-		$this->connection = new \PDO( $this->conString.$db );
-	}
+    public function __construct( $db, $user, $pass, $host = 'localhost', $port = 5432 ) {
+        if (empty($db)) {
+            return;
+        }
+        $this->projectName = $db;
+        if( empty( $port )) $port = 5432;
+        if( empty( $host )) $host = 'localhost';
+        $this->conString = "pgsql:host=$host;port=$port;user=$user;password=$pass;dbname=";
+        $this->connection = new \PDO( $this->conString.$db );
+    }
 
 	/**
 	 * @param $db
@@ -79,6 +85,7 @@ class Connection {
 		$statement = $this->connection->prepare( $sql );
 
         $res = $statement->execute($params);
+        $this->resultCount += $statement->rowCount();
 
         $logging = new Logging('db_' . $this->projectName);
 
