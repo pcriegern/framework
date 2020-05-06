@@ -19,7 +19,7 @@ class ArrayHelper {
                     return false;
                 }
             } else if (is_array($v)) {
-                if (!self::isSubsetOf($haystack[$k], $v)) {
+                if (!is_array($haystack[$k]) || !self::isSubsetOf($haystack[$k], $v)) {
                     return false;
                 }
             } else if ($haystack[$k] !== $v) {
