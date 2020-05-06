@@ -33,10 +33,13 @@ class ApiClient extends RestClient {
      * @param string $url
      */
     public function __construct($url) {
-        $protocol = 'https';
+        $protocol = 'http';
         $port     = 80;
         if (strpos($url, '://') !== false) {
             list ($protocol, $url) = explode('://', $url);
+            if ($protocol === 'https') {
+                $port = 443;
+            }
         }
         if (strpos($url, '/') !== false) {
             list ($url, $uriBase) = explode('/', $url, 2);
