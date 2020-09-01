@@ -1,5 +1,5 @@
 {
-    "name": "wlec/Framework",
+    "name": "wlec/framework",
     "description": "WLEC PHP Framework Basics",
     "require": {
         "php": ">=5.6"
